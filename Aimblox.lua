@@ -1,3 +1,7 @@
+--[[
+    Gun mod by VX#7165 (yes i will put that everywhere)
+    for this poopee game: www.roblox.com/games/6808416928/RFB-Aimblox-BETA
+--]]
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" then
         if rawget(v, "MaxAmmo") and type(rawget(v, "MaxAmmo")) == "number" then
