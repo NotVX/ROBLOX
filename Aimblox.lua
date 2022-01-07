@@ -1,5 +1,5 @@
 --[[
-    Gun mod by VX#7165 (yes i will put that everywhere)
+    By - VX#4212
     for this poopee game: www.roblox.com/games/6808416928/RFB-Aimblox-BETA
 --]]
 for i, v in pairs(getgc(true)) do
