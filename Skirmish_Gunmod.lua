@@ -1,48 +1,46 @@
 --[[
-    Gun mod made by VX#7165
-    for this game: www.roblox.com/games/5615158353/Skirmish
+    07.01.22 / Updated.
+    Whats new? - Literally fucking nothing lol
+    Game - www.roblox.com/games/5615158353/Skirmish
 --]]
 
-local l = game.Players.LocalPlayer
--- UGLY CODE, FUCK OFF --
+local client = game.Players.LocalPlayer
+local senv = getsenv(client.PlayerGui["Carbon_CEngine Modified"])
 
--- inf ammo
-coroutine.wrap(function()
-    while wait() do
-        for i, v in pairs(l.Backpack:GetChildren()) do
-            if v:IsA("Tool") then
-                if v:FindFirstChild("ConfigMods") and v.ConfigMods:FindFirstChild("CConfig") then
-                    local cmod = require(v.ConfigMods.CConfig)
-                    cmod.Ammo = math.huge
-                    cmod.StoredAmmo = math.huge
-                end
-            end
-        end
-        for i, v in pairs(l.Character:GetChildren()) do
-            if v:IsA("Tool") then
-                if v:FindFirstChild("ConfigMods") and v.ConfigMods:FindFirstChild("CConfig") then
-                    local cmod = require(v.ConfigMods.CConfig)
-                    cmod.Ammo = math.huge
-                    cmod.StoredAmmo = math.huge
-                end
-            end
-        end
+--// Functions
+function NoRecoil()
+    repeat wait() until client:FindFirstChild("PlayerGui"):FindFirstChild("Carbon_CEngine Modified")
+    local senv = getsenv(client.PlayerGui["Carbon_CEngine Modified"])
+    repeat wait() until rawget(senv, "CalculateRecoil") and rawget(senv, "CalculateRecoil") and rawget(senv, "CalculateRecoil")
+    for i, v in next, {senv.CalculateRecoil, senv.CalculateCamRecoil, senv.CalculateCamShake} do
+        hookfunction(v, function()
+            return Vector3.new(0, 0, 0)
+        end)
     end
-end)()
--- wtf.. why uh --
+end
+function GunMod(tool)
+    local mods = tool:FindFirstChild("ConfigMods")
+    if tool:IsA("Tool") and mods then
+        local menv = require(mods.CConfig)
+        menv.Ammo = math.huge
+        menv.StoredAmmo = math.huge
+    end
+end
 
--- norecoil
-coroutine.wrap(function()
-    while wait() do
-        local env = getsenv(l.PlayerGui:WaitForChild('Carbon_CEngine'))
-        env.CalculateCamShake = function() 
-            return Vector3.new(0, 0, 0) 
-        end
-        env.CalculateCamRecoil = function() 
-            return Vector3.new(0, 0, 0) 
-        end
-        env.CalculateRecoil = function() 
-            return Vector3.new(0, 0, 0) 
-        end
-    end
-end)()
+--// Setup
+for i, v in next, client.Backpack:GetChildren() do
+    GunMod(v)
+end
+client.Backpack.ChildAdded:Connect(function(v)
+    GunMod(v)
+end)
+NoRecoil()
+
+--// Auto setup after you die
+client.CharacterAdded:Connect(function()
+    repeat wait() until client:FindFirstChild("Backpack")
+    task.spawn(NoRecoil)
+    client.Backpack.ChildAdded:Connect(function(v)
+        GunMod(v)
+    end)
+end)
