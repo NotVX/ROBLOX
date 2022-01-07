@@ -2,6 +2,7 @@
     07.01.22 / Updated.
     Whats new? - Literally fucking nothing lol
     Game - www.roblox.com/games/5615158353/Skirmish
+    By - VX#4212
 --]]
 
 local client = game.Players.LocalPlayer
